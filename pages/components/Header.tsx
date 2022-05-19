@@ -1,94 +1,30 @@
-import { PageHeader,Input, Space, Button } from 'antd'
-import { useEffect, useState } from 'react';
-import axios from 'axios'
-import { useQuery } from 'react-query';
-
-
-
-
-
+import React from 'react'
+import {SearchIcon,ShoppingCartIcon } from '@heroicons/react/outline'
+import { Link} from 'react-scroll'
 
 function Header() {
-  const [text,setText] = useState('')
-  const [emptyPack,setEmptyPack] = useState(false)
-  const [pokemon,setPokemon] = useState<any>({})
-
-
-
-
- const { isLoading: isLoadingTutorial, refetch: getTutorialById } = useQuery(
-    "pokemon",
-    async () => {
-      return await axios.get(`https://pokeapi.co/api/v2/pokemon/${text}`);  
-    },
-    {
-      enabled: false,
-     
-      onSuccess: (res) => {
-        console.log(res);
-          
-        const result = {
-          name: text, 
-          species: res.data.species.name,
-          img:  res.data.sprites.front_default,
-          hp: res.data.stats[0].base_stat,
-          atack: res.data.stats[1].base_stat,
-          defense: res.data.stats[2].base_stat,
-          types: res.data.types[0].type.name         
-        };
-        setPokemon(result);
-        setEmptyPack(true)
-       
-        
-      },
-      onError: (err) => {
-        setPokemon(err);
-      },
-    }
-  );
-  function getDataById() {
-    if (text) {
-      try {
-        getTutorialById();
-      } catch (err) {
-        setPokemon(err);
-      }
-    }
-    console.log(pokemon);
-    
-    
-  }
-  
-  
-   const HandleText = (e: any) => {
-      setText(e.target.value)     
-   }
-
-   
-
   return (
-    <div className='flex flex-col justify-center items-center bg-yellow-200'>
-      <PageHeader title='Pokemons Ant'/>
-      <div className='w-28  mb-3'>
-        <Input placeholder="input search text" value={text} onChange={HandleText} size='large'/>
+    <div className='fixed top-10 w-full h-20 bg-black text-gray-500'>
+      <div className='w-3/4 h-full mx-auto flex items-center justify-between'>
+        <div className='text-2xl text-white mr-2 font-pacifico'>PORTER
+        </div> 
+        <div className='h-full flex flex-row justify-center items-center text-sm '>    
+            <Link activeClass="active" to="colection" spy={true} smooth={true} offset={1} duration={500} className='h-full w-24 flex items-center justify-center text-center text-gray-500 hover:bg-gray-500 hover:text-gray-200 active:text-yellow-400' href="#">
+              Колекції
+            </Link>
+            <Link activeClass="active" to="about" spy={true} smooth={true} offset={2} duration={500} className='h-full w-24 flex items-center justify-center text-center text-gray-500 hover:bg-gray-500 hover:text-gray-200 active:text-yellow-400' href="#">
+              Опис
+            </Link>
+            <Link activeClass="active" to="availeble" spy={true} smooth={true} offset={3} duration={500} className='h-full w-24 flex items-center justify-center text-center text-gray-500 hover:bg-gray-500 hover:text-gray-200 active:text-yellow-400' href="#">
+              Нові Поступлення
+            </Link>
+            
+            <ShoppingCartIcon className='h-5 w-5 mx-5 text-white'/>
+            <SearchIcon className='h-5 w-5 text-white'/>
+        </div>
       </div>
-      <Button type="dashed" value='large' onClick={getDataById}>ADD</Button>
-      <div>
-        
-        {!emptyPack ? <div>Some pokemons</div> :
-        isLoadingTutorial ? <div>...Loading</div> :(
-          <>
-            <h1>{pokemon.name}</h1>
-            <img src={pokemon.img} alt={pokemon.name}/>
-            <h3>Species: {pokemon.species}</h3>
-            <h3>Type: {pokemon.types}</h3>
-            <h3>Hp: {pokemon.hp}</h3>
-            <h4>Attack: {pokemon.atack}</h4>
-            <h4>Defense: {pokemon.defense}</h4>
-          </>
-        )}
-      </div>
-   </div>
+      
+    </div>
   )
 }
 

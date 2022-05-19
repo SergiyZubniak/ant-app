@@ -1,11 +1,17 @@
 
 import type { NextPage } from 'next'
-import Header from './components/Header'
+
 import {
 
   QueryClient,
   QueryClientProvider,
 } from 'react-query'
+import About from './components/About';
+import Availeble from './components/Availeble';
+import Carousel from './components/Carousel';
+import Colection from './components/Colection';
+import Header from './components/Header';
+import Upheader from './components/Upheader';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,8 +28,13 @@ const Home: NextPage = () => {
   return (
     <>
     <QueryClientProvider client={queryClient}>
-      <Header />
+     <Upheader />
+     <Header />
+     <About />
+     <Colection />
      </QueryClientProvider>
+     <Availeble />
+    
     </>
   )
 }
